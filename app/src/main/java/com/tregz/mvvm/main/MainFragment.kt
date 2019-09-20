@@ -2,7 +2,6 @@ package com.tregz.mvvm.main
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +14,6 @@ class MainFragment : Fragment() {
 
     private lateinit var viewModel: MainBackend
 
-    private lateinit var nameLabel: String
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,12 +23,12 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        nameLabel = getString(R.string.label_username)
+        val nameLabel = getString(R.string.label_username)
         image_button.setOnClickListener { it.isSelected = !it.isSelected }
         var input: String = nameLabel
         input_editor.doOnTextChanged { text, _, _, _ ->
             with(text.toString()) {
-                if (this.isNotEmpty()) input = text.toString() else input = nameLabel
+                input = if (this.isNotEmpty()) this else nameLabel
             }
         }
         negative_button.setOnClickListener { username.text = nameLabel }
@@ -45,7 +42,7 @@ class MainFragment : Fragment() {
     }
 
     companion object {
-        private val TAG: String = MainFragment::class.java.simpleName
+        //private val TAG: String = MainFragment::class.java.simpleName
         fun newInstance() = MainFragment()
     }
 }
