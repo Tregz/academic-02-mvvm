@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MVVM</string>
+    <string name="main_title">Mobile App Development</string>
+    <string name="label_username">Username</string>
+    <string name="input_hint">What\'s your name?</string>
+    <string name="action_negative">Cancel</string>
+    <string name="action_positive">Okay</string>
 </resources>

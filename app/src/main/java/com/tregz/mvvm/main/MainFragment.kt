@@ -2,19 +2,20 @@ package com.tregz.mvvm.main
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import com.tregz.mvvm.R
+import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
+    private lateinit var viewModel: MainBackend
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var nameLabel: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,10 +24,28 @@ class MainFragment : Fragment() {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        nameLabel = getString(R.string.label_username)
+        image_button.setOnClickListener { it.isSelected = !it.isSelected }
+        var input: String = nameLabel
+        input_editor.doOnTextChanged { text, _, _, _ ->
+            with(text.toString()) {
+                if (this.isNotEmpty()) input = text.toString() else input = nameLabel
+            }
+        }
+        negative_button.setOnClickListener { username.text = nameLabel }
+        positive_button.setOnClickListener { username.text = input }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(MainBackend::class.java)
         // TODO: Use the ViewModel
     }
 
+    companion object {
+        private val TAG: String = MainFragment::class.java.simpleName
+        fun newInstance() = MainFragment()
+    }
 }
